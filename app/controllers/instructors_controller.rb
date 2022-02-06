@@ -7,14 +7,25 @@ class InstructorsController < ApplicationController
 
     def create
         instructor = Instructor.create(instructor_params)
-        render json: instructor, status: 201, include: ['instructor']
+        render json: instructor, status: 201
     end
+
+    # def update
+    #     instructor = find_by_id
+    #     if instructor
+    #         instructor.update!(instructor_params)
+    #         render json: instructor, status: 202
+    #     else
+    #         instructor_404
+    #     end
+    #     rescue ActiveRecord::RecordInvalid => invalid
+    #         render json: { errors: invalid.record.errors.full_messages }, status: 422
+    # end
 
     def update
         instructor = find_by_id
-        if instructor
-            instructor.update(instructor_params)
-            render json: instructor, status: 202, include: ['instructor']
+        if instructor && instructor.update(instructor_params)
+            render json: instructor, status: 202
         else
             instructor_404
         end

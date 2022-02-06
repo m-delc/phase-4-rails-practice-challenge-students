@@ -14,11 +14,13 @@ class StudentsController < ApplicationController
     def update
         student = find_by_id
         if student
-            student.update(student_params)
+            student.update!(student_params)
             render json: student, status: 202, include: ['instructor']
         else
             student_404
         end
+        rescue ActiveRecord::RecordInvalid => invalid
+            render json: { errors: invalid.record.errors.full_messages }, status: 422
     end
 
     def destroy
